@@ -4,7 +4,8 @@ import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Loader } from '../Loader/Loader';
 import {LoadMoreButton} from '../Button/Button';
 import { fetchGalleryItems } from 'Services/API';
-
+import{Modal} from '../Modal/Modal';
+import css from './App.module.css'
 export class App extends Component {
   state = {
     images: [],
@@ -14,20 +15,22 @@ export class App extends Component {
     totalHits: 0,
     error: null,
     per_page: 12,
+    showModal: false,
+    selectedImage: null,
   };
 
   handleSearchSubmit = async (searchValue) => {
-  if (searchValue.trim() !== '') {
-    this.setState({ searchValue, images: [], page: 1 });
-  }
-};
+    if (searchValue.trim() !== '') {
+      this.setState({ searchValue, images: [], page: 1 });
+    }
+  };
 
   handleLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const {searchValue, page, per_page} = this.state;
+    const { searchValue, page, per_page } = this.state;
     if (prevState.page !== this.state.page || prevState.searchValue !== this.state.searchValue) {
       this.setState({ isLoading: true });
       fetchGalleryItems(searchValue, page, per_page)
@@ -43,17 +46,26 @@ export class App extends Component {
         });
     }
   }
+  handleImageClick = (largeImageURL) => {
+    this.setState({ showModal: true, selectedImage: largeImageURL });
+  };
+
+  handleModalClose = () => {
+    this.setState({ showModal: false, selectedImage: '' });
+  };
 
   render() {
-    const { images, isLoading, totalHits } = this.state;
+    const { images, isLoading, totalHits,  } = this.state;
     const imagesArray = Array.isArray(images) ? images : [];
     const isButtonVisible = imagesArray.length > 0 && totalHits > imagesArray.length;
 
     return (
-      <div>
+      <div className={css.container}>
         <SearchBar onSubmit={this.handleSearchSubmit} />
-        {isLoading ? <Loader /> : <ImageGallery images={imagesArray} />}
+        {isLoading ? <Loader /> : <ImageGallery images={imagesArray} onImageClick={this.handleImageClick} />}
         {!isLoading && <LoadMoreButton onClick={this.handleLoadMore} isVisible={isButtonVisible} />}
+        {this.state.showModal && <Modal selectedImage={this.state.selectedImage} onClose={this.handleModalClose} />}
+
       </div>
     );
   }

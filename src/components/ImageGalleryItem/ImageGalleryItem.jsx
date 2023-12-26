@@ -3,8 +3,9 @@ import css from './ImageGalleryItem.module.css';
 
 export class ImageGalleryItem extends Component {
   handleClick = () => {
-    this.props.onOpen(this.props.largeImageURL);
-  };
+  this.props.onImageClick(this.props.largeImageURL);
+};
+
   render() {
     const { id, webformatURL, tags } = this.props;
 
