@@ -12,7 +12,7 @@ export const fetchGalleryItems = async (searchQuery, page = 1, per_page = 12) =>
   const { data } = await axios.get(
     `${url}?q=${searchQuery}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=${per_page}`
   );
-        return data.hits;
+        return data;
         } catch (error) {
     console.error('Error during fetch:', error);
   }

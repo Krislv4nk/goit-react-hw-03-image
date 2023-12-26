@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import css from "./Button.module.css";
 
 export class LoadMoreButton extends Component {
   render() {
@@ -10,7 +10,8 @@ export class LoadMoreButton extends Component {
     }
 
     return (
-      <button onClick={onClick}>Load more</button>
+      <div className={css.buttonWrapper} >
+      <button className={css.button} onClick={onClick}>Load more</button></div>
     );
   }
 }
