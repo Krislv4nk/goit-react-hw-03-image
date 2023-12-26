@@ -1,3 +1,18 @@
-// import React, { Component } from "react";
-// import     from 'react-loader-spinner'
+import React, { Component } from "react";
+import {Bars} from 'react-loader-spinner';
+
+export class Loader extends Component {
+  render() {
+    return (
+      <Bars
+  height="80"
+  width="80"
+  color="#4fa94d"
+  ariaLabel="bars-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={true}
+  />);
+  }
+}
 

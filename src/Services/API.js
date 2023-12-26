@@ -7,9 +7,14 @@ const url = 'https://pixabay.com/api/';
 
 
 
-export const fetchGalleryItems = async (searchQuery, pages, per_page) => {
+export const fetchGalleryItems = async (searchQuery, page = 1, per_page = 12) => {
+    try {
   const { data } = await axios.get(
-    `${url}?q=${searchQuery}&page=${pages}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=${per_page}`
+    `${url}?q=${searchQuery}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=${per_page}`
   );
-  return data;
+        return data.hits;
+        } catch (error) {
+    console.error('Error during fetch:', error);
+  }
 };
+
