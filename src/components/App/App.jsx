@@ -19,7 +19,7 @@ export class App extends Component {
     selectedImage: null,
   };
 
-  handleSearchSubmit = async (searchValue) => {
+  handleSearchSubmit = (searchValue) => {
     if (searchValue.trim() !== '') {
       this.setState({ searchValue, images: [], page: 1 });
     }
@@ -61,12 +61,12 @@ export class App extends Component {
 
     return (
       <div className={css.container}>
-        <SearchBar onSubmit={this.handleSearchSubmit} />
-        {isLoading ? <Loader /> : <ImageGallery images={imagesArray} onImageClick={this.handleImageClick} />}
-        {!isLoading && <LoadMoreButton onClick={this.handleLoadMore} isVisible={isButtonVisible} />}
-        {this.state.showModal && <Modal selectedImage={this.state.selectedImage} onClose={this.handleModalClose} />}
-
-      </div>
+    <SearchBar onSubmit={this.handleSearchSubmit} />
+    {isLoading ? <Loader /> : null}
+    {imagesArray.length > 0 && <ImageGallery images={imagesArray} onImageClick={this.handleImageClick} />}
+    {!isLoading && <LoadMoreButton onClick={this.handleLoadMore} isVisible={isButtonVisible} />}
+    {this.state.showModal && <Modal selectedImage={this.state.selectedImage} onClose={this.handleModalClose} />}
+  </div>
     );
   }
 }
